@@ -49,6 +49,9 @@ public class Location {
     @OneToMany(mappedBy = "id.location", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HourlyWeather> hourlyWeathers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "id.location", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DailyWeather> dailyWeathers = new ArrayList<>();
+
     public Location() {
     }
 
@@ -87,6 +90,9 @@ public class Location {
 
     public void addHourlyWeather(HourlyWeather hourlyWeather) {
         this.hourlyWeathers.add(hourlyWeather);
+    }
+    public void addDailyWeather(DailyWeather dailyWeather) {
+        this.dailyWeathers.add(dailyWeather);
     }
 
     public String getCode() {
@@ -151,6 +157,14 @@ public class Location {
 
     public void setHourlyWeathers(List<HourlyWeather> hourlyWeathers) {
         this.hourlyWeathers = hourlyWeathers;
+    }
+
+    public List<DailyWeather> getDailyWeathers() {
+        return dailyWeathers;
+    }
+
+    public void setDailyWeathers(List<DailyWeather> dailyWeathers) {
+        this.dailyWeathers = dailyWeathers;
     }
 
     @Override

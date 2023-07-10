@@ -1,5 +1,6 @@
 package com.example.weatherforecast.location;
 
+import com.example.weatherforecast.DailyWeather;
 import com.example.weatherforecast.HourlyWeather;
 import com.example.weatherforecast.Location;
 import com.example.weatherforecast.RealtimeWeather;
@@ -112,5 +113,18 @@ public class LocationRepositoryTest {
         Location location = locationRepository.findByCountryCodeAndAndCityName(countryCode, cityName);
 
         assertThat(location).isNotNull();
+    }
+
+    @Test
+    public void testAddDailyWeatherData() {
+        String locationCode = "DN_VN";
+        Location location = locationRepository.getLocationByCode(locationCode);
+
+        DailyWeather weather1 = new DailyWeather()
+                .location(location).month(12)
+                .dayOfMonth(5).maxTemp(100).minTemp(20).precipitation(1).status("Cloud");
+        Location save = locationRepository.save(location);
+        location.addDailyWeather(weather1);
+        assertThat(save.getDailyWeathers().size()).isEqualTo(1);
     }
 }

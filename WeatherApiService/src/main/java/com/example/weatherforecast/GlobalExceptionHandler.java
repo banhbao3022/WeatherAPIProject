@@ -40,7 +40,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return errorDTO;
     }
 
-    @ExceptionHandler(BadRequestException.class)
+    @ExceptionHandler({BadRequestException.class, GeolocationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ErrorDTO handleBadRequestException(HttpServletRequest request, Exception ex) {
@@ -55,7 +55,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     }
 
-    @ExceptionHandler({LocationNotFoundException.class, GeolocationException.class})
+    @ExceptionHandler({LocationNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
     public ErrorDTO handleNotFoundException(HttpServletRequest request, Exception ex) {
@@ -79,7 +79,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         errorDTO.setStatus(HttpStatus.BAD_REQUEST.value());
         errorDTO.setPath(request.getServletPath());
         var constraintViolationSet = ((ConstraintViolationException) ex).getConstraintViolations();
-        constraintViolationSet.forEach(constraintViolation -> errorDTO.addError(constraintViolation.getPropertyPath() + ":"+ constraintViolation.getMessage()));
+        constraintViolationSet.forEach(constraintViolation -> errorDTO.addError(constraintViolation.getPropertyPath() + ": "+ constraintViolation.getMessage()));
         return errorDTO;
     }
     @Override
